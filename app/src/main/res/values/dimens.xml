@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="espaco_gigante">32dp</dimen>
+    <dimen name="espaco_grande">24dp</dimen>
+    <dimen name="espaco_normal">16dp</dimen>
+    <dimen name="espaco_pequeno">8dp</dimen>
+    <dimen name="espaco_minusculo">4dp</dimen>
+
+    <dimen name="espaco_extragigante">50dp</dimen>
+
+</resources>

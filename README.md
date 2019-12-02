@@ -46,4 +46,9 @@ individualmente, o aplicativo final não deverá parecer um Frankstein.
 - Detalhes funcionam - 20
 - Apresentação visual - 20
 - Organização do código - 10
+
+## Aluno
+Felipe de Paula Matos Costa
+
+felipedepaulamatoscosta
     

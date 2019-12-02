@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/home_toolbar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+
+        android:layout_alignParentTop="true"
+        android:fitsSystemWindows="true">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/home_toolbar"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize">
+            <ImageButton
+                android:id="@+id/salva_obj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/ic_save"
+                android:paddingRight="@dimen/espaco_normal"
+                android:background="@color/colorPrimary"
+                android:textAlignment="center"
+                android:layout_gravity="end"
+                />
+
+            <ProgressBar
+                android:id="@+id/obj_save_loading"
+                android:indeterminateTint="@color/white"
+                android:layout_gravity="end"
+                android:paddingRight="@dimen/espaco_normal"
+                android:layout_width="@dimen/espaco_extragigante"
+                android:layout_height="@dimen/espaco_extragigante"
+ />
+        </androidx.appcompat.widget.Toolbar>
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:padding="@dimen/espaco_normal"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/espaco_grande"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/imgFoto"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginStart="@dimen/espaco_pequeno"
+                android:layout_marginTop="@dimen/espaco_minusculo"
+                android:layout_marginEnd="@dimen/espaco_pequeno"
+                android:layout_marginBottom="@dimen/espaco_minusculo"
+                android:scaleType="centerCrop" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:id="@+id/tipo_cadastro"
+                android:textSize="20sp"
+                android:text="Dados"/>
+
+            <EditText
+                android:id="@+id/titulo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Titulo"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:inputType="text"/>
+
+
+            <EditText
+                android:id="@+id/descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Descrição"
+                android:inputType="textMultiLine"/>
+
+
+            <EditText
+                android:id="@+id/photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Imagem"
+                android:inputType="text" />
+
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
