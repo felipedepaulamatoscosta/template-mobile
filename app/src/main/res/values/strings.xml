@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">projeto-sustentabilidade</string>
+    <string name="app_name">Projeto Sustentabilidade</string>
 
     <string name="titulo_reciclagem">Reciclagem</string>
     <string name="titulo_reducao_lixo">Redução de lixos</string>
