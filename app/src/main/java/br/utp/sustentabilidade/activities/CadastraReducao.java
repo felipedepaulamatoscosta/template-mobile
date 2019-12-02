@@ -131,8 +131,20 @@ public class CadastraReducao extends AppCompatActivity {
         ReducaoLixo reducaoLixo = new ReducaoLixo();
         btnSalvar.setOnClickListener(v -> {
 
-            progress_save_loading.setVisibility(View.VISIBLE);
-            btnSalvar.setVisibility(View.GONE);
+            if(titulo.getText().toString().equals(""))
+            {
+                titulo.requestFocus();
+                Toast.makeText(this, R.string.erro_informetitulo, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if(descricao.getText().toString().equals(""))
+            {
+                descricao.requestFocus();
+                Toast.makeText(this, R.string.erro_informedescricao, Toast.LENGTH_LONG).show();
+                return;
+            }
+
 
             if (titulo.toString() != null) {
                 reducaoLixo.setTitulo(titulo.getText().toString());
@@ -148,6 +160,8 @@ public class CadastraReducao extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = gson.toJson(reducaoLixo);
+            progress_save_loading.setVisibility(View.VISIBLE);
+            btnSalvar.setVisibility(View.GONE);
 
             postRequest(reducaoLixo);
         });

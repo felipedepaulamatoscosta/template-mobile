@@ -1,6 +1,7 @@
 package br.utp.sustentabilidade.activities;
 
 
+import android.content.Context;
 import android.content.Intent;
 
 import android.os.Bundle;
@@ -131,10 +132,27 @@ public class CadastraAgrotoxico extends AppCompatActivity {
 
     private void onSalvar() {
         Agrotoxico agrotoxico = new Agrotoxico();
+
+
+
+
         btnSalvar.setOnClickListener(v -> {
 
-            progress_save_loading.setVisibility(View.VISIBLE);
-            btnSalvar.setVisibility(View.GONE);
+
+            if(titulo.getText().toString().equals(""))
+            {
+                titulo.requestFocus();
+                Toast.makeText(this, R.string.erro_informetitulo, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if(descricao.getText().toString().equals(""))
+            {
+                descricao.requestFocus();
+                Toast.makeText(this, R.string.erro_informedescricao, Toast.LENGTH_LONG).show();
+                return;
+            }
+
 
             if (titulo.toString() != null) {
                 agrotoxico.setTitulo(titulo.getText().toString());
@@ -150,6 +168,9 @@ public class CadastraAgrotoxico extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = gson.toJson(agrotoxico);
+
+            progress_save_loading.setVisibility(View.VISIBLE);
+            btnSalvar.setVisibility(View.GONE);
 
             postRequest(agrotoxico);
         });

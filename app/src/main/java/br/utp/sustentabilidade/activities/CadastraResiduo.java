@@ -130,8 +130,21 @@ public class CadastraResiduo extends AppCompatActivity {
         Residuo residuo = new Residuo();
         btnSalvar.setOnClickListener(v -> {
 
-            progress_save_loading.setVisibility(View.VISIBLE);
-            btnSalvar.setVisibility(View.GONE);
+            if(titulo.getText().toString().equals(""))
+            {
+                titulo.requestFocus();
+                Toast.makeText(this, R.string.erro_informetitulo, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if(descricao.getText().toString().equals(""))
+            {
+                descricao.requestFocus();
+                Toast.makeText(this, R.string.erro_informedescricao, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+
 
             if (titulo.toString() != null) {
                 residuo.setTitulo(titulo.getText().toString());
@@ -147,6 +160,11 @@ public class CadastraResiduo extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = gson.toJson(residuo);
+
+
+            progress_save_loading.setVisibility(View.VISIBLE);
+            btnSalvar.setVisibility(View.GONE);
+
 
             postRequest(residuo);
         });

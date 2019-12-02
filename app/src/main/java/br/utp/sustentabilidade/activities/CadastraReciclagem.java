@@ -130,8 +130,21 @@ public class CadastraReciclagem extends AppCompatActivity {
         Reciclagem reciclagem = new Reciclagem();
         btnSalvar.setOnClickListener(v -> {
 
-            progress_save_loading.setVisibility(View.VISIBLE);
-            btnSalvar.setVisibility(View.GONE);
+
+            if(titulo.getText().toString().equals(""))
+            {
+                titulo.requestFocus();
+                Toast.makeText(this, R.string.erro_informetitulo, Toast.LENGTH_LONG).show();
+                return;
+            }
+
+            if(descricao.getText().toString().equals(""))
+            {
+                descricao.requestFocus();
+                Toast.makeText(this, R.string.erro_informedescricao, Toast.LENGTH_LONG).show();
+                return;
+            }
+
 
             if (titulo.toString() != null) {
                 reciclagem.setTitulo(titulo.getText().toString());
@@ -147,7 +160,8 @@ public class CadastraReciclagem extends AppCompatActivity {
 
             Gson gson = new Gson();
             String json = gson.toJson(reciclagem);
-
+            progress_save_loading.setVisibility(View.VISIBLE);
+            btnSalvar.setVisibility(View.GONE);
             postRequest(reciclagem);
         });
     }

@@ -7,4 +7,7 @@
     <string name="titulo_produtos_agrotoxicos">Agrotóxicos</string>
     <string name="erro_webservice">Erro ao carregar webservice.</string>
     <string name="sucesso_inclusao">Incluso com sucesso!.</string>
+
+    <string name="erro_informetitulo">Informe um título válido</string>
+    <string name="erro_informedescricao">Informe uma descrição válida</string>
 </resources>
