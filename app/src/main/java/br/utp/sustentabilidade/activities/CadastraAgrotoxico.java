@@ -19,7 +19,7 @@ import androidx.appcompat.widget.Toolbar;
 
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
+
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -49,16 +49,23 @@ public class CadastraAgrotoxico extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // uso um xml genérico nesse caso pois todos os cadastros são iguais
         setContentView(R.layout.activity_cadastro);
 
         try {
             if (getIntent().hasExtra("agrotoxico")) {
+
                 json = new JSONObject(getIntent().getStringExtra("agrotoxico"));
+                //caso haja um "Extra" e seja possível converter significa que essa tela foi criada a aprtir do evento Click do card ou onEdit do card
+
                 agrotoxicoEdit = true;
             }
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
 
         onInicializar();
 
@@ -119,15 +126,24 @@ public class CadastraAgrotoxico extends AppCompatActivity {
         progress_save_loading = findViewById(R.id.obj_save_loading);
         imgFoto= findViewById(R.id.imgFoto);
         progress_save_loading.setVisibility(View.GONE);
+
+        // troco o texto de título pois o xml activity_cadastro é genérico
         tipoCadastro.setText("Dados do Agrotóxico");
 
+
+        //caso não seja um item novo escondemos o botão salvar e bloqueamos a entrada de digitação nos campos
+        //isso porque o método de edição não está implementado, então usamos essa tela como detalhe
         if(agrotoxicoEdit)
         {
+            // View.GONE oculta o componente e libera o espaço do layout
             btnSalvar.setVisibility(View.GONE);
+            // setKeyListener(null) bloqueia a entrada de digitação no campo
             descricao.setKeyListener(null);
             titulo.setKeyListener(null);
             foto.setKeyListener(null);
         }
+
+        //se a variavel agrotoxicoEdit = false sabemos que estamos inserindo uum item novo
     }
 
     private void onSalvar() {
@@ -166,9 +182,8 @@ public class CadastraAgrotoxico extends AppCompatActivity {
                 agrotoxico.setFoto(foto.getText().toString());
             }
 
-            Gson gson = new Gson();
-            String json = gson.toJson(agrotoxico);
 
+            // nesse procedimento oculta o botão salvar e torna o progress visivel para até finalizar a operação no serviço
             progress_save_loading.setVisibility(View.VISIBLE);
             btnSalvar.setVisibility(View.GONE);
 
@@ -179,6 +194,8 @@ public class CadastraAgrotoxico extends AppCompatActivity {
 
     private void postRequest(Agrotoxico agrotoxico) {
 
+        // nesse momento pode se incluir o método editar se necessário...
+        // apenas verificar a variavel agrotoxicoEdit para trocar a chamado do método
         Call<RespostaJSON<Agrotoxico>> call = NetworkManager.service().inserirAgrotoxico(agrotoxico);
         call.enqueue(new Callback<RespostaJSON<Agrotoxico>>() {
             @Override
@@ -187,7 +204,11 @@ public class CadastraAgrotoxico extends AppCompatActivity {
 
                 // Webservice retornou uma resposta
                 RespostaJSON<Agrotoxico> body = response.body();
+
+                // torno o progress invisivel pois o processamento no service terminou
                 progress_save_loading.setVisibility(View.GONE);
+
+                // torno o botão salvar visivel novamente
                 btnSalvar.setVisibility(View.VISIBLE);
 
                 // Verifica se nao ocorreu erro no processamento do servidor

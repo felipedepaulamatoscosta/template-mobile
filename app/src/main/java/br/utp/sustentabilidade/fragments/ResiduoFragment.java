@@ -75,6 +75,7 @@ public class ResiduoFragment extends Fragment implements ResiduoAdapter.ResiduoL
         // Exibe a progressbar
         mBinding.residuoLoading.setVisibility(View.VISIBLE);
 
+        // Inclusão do método de verificação da rolagem da lista para carregar a próxima pagina do service
         mBinding.residuoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -85,6 +86,8 @@ public class ResiduoFragment extends Fragment implements ResiduoAdapter.ResiduoL
                 boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
                 if (totalItemCount > 0 && endHasBeenReached) {
                     if (mProximaPagina >= 0) {
+                        //caso a váriavel mProximapagina for igual a -1 (alteração no método atualizarListaAgrotoxico)
+                        // não tentar carregar mais o serviço pois indica que não há mais registros
                         mProximaPagina++;
                         carregarWebService(mProximaPagina);
                     }
@@ -93,6 +96,8 @@ public class ResiduoFragment extends Fragment implements ResiduoAdapter.ResiduoL
         });
 
         btnListener();
+        // movido o método carregarWebService desse onCreateView para o onResume() para que
+        // quando abrir a tela ou retornar da tela de cadastro o sistema possa atualizar a lista
 
 
         return mBinding.getRoot();
@@ -114,6 +119,7 @@ public class ResiduoFragment extends Fragment implements ResiduoAdapter.ResiduoL
 
     @Override
     public void onResume() {
+        // Esse evento é acessado ao abrir o fragment ou retornar do cadastro
         isDestroying = false;
         mProximaPagina = 0;
         mResiduo.clear();
@@ -198,12 +204,14 @@ public class ResiduoFragment extends Fragment implements ResiduoAdapter.ResiduoL
 
     @Override
     public void onFotoClick(final Residuo residuo) {
+        // método pré implementado para possível uso futuro
         return;
     }
 
 
     @Override
     public void onResiduoEditarClick(Residuo residuo) {
+        // método pré implementado para possível uso futuro
         Gson gson = new Gson();
         String json = gson.toJson(residuo);
         Intent intent = new Intent(getContext(), CadastraResiduo.class);

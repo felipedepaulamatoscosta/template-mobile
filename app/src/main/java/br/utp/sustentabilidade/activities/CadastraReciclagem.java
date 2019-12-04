@@ -46,11 +46,13 @@ public class CadastraReciclagem extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // uso um xml genérico nesse caso pois todos os cadastros são iguais
         setContentView(R.layout.activity_cadastro);
 
         try {
             if (getIntent().hasExtra("reciclagem")) {
                 json = new JSONObject(getIntent().getStringExtra("reciclagem"));
+                //caso haja um "Extra" e seja possível converter significa que essa tela foi criada a aprtir do evento Click do card ou onEdit do card
                 reciclagemEdit = true;
             }
         } catch (JSONException e) {
@@ -115,11 +117,15 @@ public class CadastraReciclagem extends AppCompatActivity {
         progress_save_loading = findViewById(R.id.obj_save_loading);
         imgFoto= findViewById(R.id.imgFoto);
         progress_save_loading.setVisibility(View.GONE);
+        // troco o texto de título pois o xml activity_cadastro é genérico
         tipoCadastro.setText("Dados de Reciclagem");
-
+        //caso não seja um item novo escondemos o botão salvar e bloqueamos a entrada de digitação nos campos
+        //isso porque o método de edição não está implementado, então usamos essa tela como detalhe
         if(reciclagemEdit)
         {
+            // View.GONE oculta o componente e libera o espaço do layout
             btnSalvar.setVisibility(View.GONE);
+            // setKeyListener(null) bloqueia a entrada de digitação no campo
             descricao.setKeyListener(null);
             titulo.setKeyListener(null);
             foto.setKeyListener(null);
@@ -158,10 +164,12 @@ public class CadastraReciclagem extends AppCompatActivity {
                 reciclagem.setFoto(foto.getText().toString());
             }
 
-            Gson gson = new Gson();
-            String json = gson.toJson(reciclagem);
+
+
+            // nesse procedimento oculta o botão salvar e torna o progress visivel para até finalizar a operação no serviço
             progress_save_loading.setVisibility(View.VISIBLE);
             btnSalvar.setVisibility(View.GONE);
+
             postRequest(reciclagem);
         });
     }
@@ -171,6 +179,8 @@ public class CadastraReciclagem extends AppCompatActivity {
 
     private void postRequest(Reciclagem reciclagem) {
 
+        // nesse momento pode se incluir o método editar se necessário...
+        // apenas verificar a variavel reciclagemEdit para trocar a chamado do método
         Call<RespostaJSON<Reciclagem>> call = NetworkManager.service().inserirRecliclagem(reciclagem);
         call.enqueue(new Callback<RespostaJSON<Reciclagem>>() {
             @Override
@@ -179,7 +189,10 @@ public class CadastraReciclagem extends AppCompatActivity {
 
                 // Webservice retornou uma resposta
                 RespostaJSON<Reciclagem> body = response.body();
+                // torno o progress invisivel pois o processamento no service terminou
                 progress_save_loading.setVisibility(View.GONE);
+
+                // torno o botão salvar visivel novamente
                 btnSalvar.setVisibility(View.VISIBLE);
 
                 // Verifica se nao ocorreu erro no processamento do servidor

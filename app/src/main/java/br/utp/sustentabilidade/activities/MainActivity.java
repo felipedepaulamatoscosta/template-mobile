@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         mFragmentoReciclagem = ReciclagemFragment.newInstance();
         mFragmentoReducaoLixo = ReducaoLixoFragment.newInstance();
         mFragmentoResiduo= ResiduoFragment.newInstance();
+
         // Cadastra os eventos da bottom navigation
         mBinding.mainBottomNavigation.setOnNavigationItemSelectedListener(this::onSelecionarFragmento);
 
@@ -51,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_agrotoxicos:
                 trocarFragmentos(mFragmentoAgrotoxico);
                 return true;
-
             case R.id.action_reducao_lixo:
                 trocarFragmentos(mFragmentoReducaoLixo);
                 return true;

@@ -73,9 +73,10 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
         mBinding.agrotoxicoRecyclerView.setAdapter(mAdapter);
         mBinding.agrotoxicoRecyclerView.setLayoutManager(layout);
 
-        // Exibe a progressbar
+        // Exibe a progressbar de carregamento da lista
         mBinding.agrotoxicoLoading.setVisibility(View.VISIBLE);
 
+        // Inclusão do método de verificação da rolagem da lista para carregar a próxima pagina do service
         mBinding.agrotoxicoRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -85,7 +86,12 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
 
                 boolean endHasBeenReached = lastVisible + 5 >= totalItemCount;
                 if (totalItemCount > 0 && endHasBeenReached) {
+
+                    //caso a váriavel mProximapagina for igual a -1 (alteração no método atualizarListaAgrotoxico)
+                    // não tentar carregar mais o serviço pois indica que não há mais registros
                     if (mProximaPagina >= 0) {
+
+
                         mProximaPagina++;
                         carregarWebService(mProximaPagina);
                     }
@@ -95,6 +101,8 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
 
         btnListener();
 
+        // movido o método carregarWebService desse onCreateView para o onResume() para que
+        // quando abrir a tela ou retornar da tela de cadastro o sistema possa atualizar a lista
 
         return mBinding.getRoot();
     }
@@ -108,6 +116,7 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
 
     @Override
     public void onResume() {
+        // Esse evento é acessado ao abrir o fragment ou retornar do cadastro
         isDestroying = false;
         mProximaPagina = 0;
         mAgrotoxico.clear();
@@ -146,6 +155,7 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
                 Log.d("TAG", "onResponse: " + resposta);
                 Log.d("TAG", "onResponse: " + resposta.getStatus());
                 if (resposta != null && resposta.getStatus() == 0) {
+                    // atualiza a lista da tela
                     atualizarListaAgrotoxico(resposta.getObject());
                 } else {
                     exibirMensagemErro();
@@ -192,6 +202,7 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
         Gson gson = new Gson();
         String json = gson.toJson(agrotoxico);
         Intent intent = new Intent(getContext(), CadastraAgrotoxico.class);
+        // envio via putExtra para a tela de cadastro.
         intent.putExtra("agrotoxico", json);
         startActivity(intent);
         getActivity().finish();
@@ -199,12 +210,14 @@ public class AgrotoxicoFragment extends Fragment implements AgrotoxicoAdapter.Ag
 
     @Override
     public void onFotoClick(final Agrotoxico agrotoxico) {
+        // método pré implementado para possível uso futuro
         return;
     }
 
 
     @Override
     public void onAgrotoxicoEditarClick(Agrotoxico agrotoxico) {
+        // método pré implementado para possível uso futuro
         Gson gson = new Gson();
         String json = gson.toJson(agrotoxico);
         Intent intent = new Intent(getContext(), CadastraAgrotoxico.class);

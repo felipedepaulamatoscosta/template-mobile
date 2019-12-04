@@ -47,11 +47,13 @@ public class CadastraReducao extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // uso um xml genérico nesse caso pois todos os cadastros são iguais
         setContentView(R.layout.activity_cadastro);
 
         try {
             if (getIntent().hasExtra("reducaoLixo")) {
                 json = new JSONObject(getIntent().getStringExtra("reducaoLixo"));
+                //caso haja um "Extra" e seja possível converter significa que essa tela foi criada a aprtir do evento Click do card ou onEdit do card
                 reducaoEdit = true;
             }
         } catch (JSONException e) {
@@ -116,11 +118,16 @@ public class CadastraReducao extends AppCompatActivity {
         imgFoto= findViewById(R.id.imgFoto);
 
         progress_save_loading.setVisibility(View.GONE);
+        // troco o texto de título pois o xml activity_cadastro é genérico
         tipoCadastro.setText("Dados de Redução de Lixo");
 
+        //caso não seja um item novo escondemos o botão salvar e bloqueamos a entrada de digitação nos campos
+        //isso porque o método de edição não está implementado, então usamos essa tela como detalhe
         if(reducaoEdit)
         {
+            // View.GONE oculta o componente e libera o espaço do layout
             btnSalvar.setVisibility(View.GONE);
+            // setKeyListener(null) bloqueia a entrada de digitação no campo
             descricao.setKeyListener(null);
             titulo.setKeyListener(null);
             foto.setKeyListener(null);
@@ -158,8 +165,8 @@ public class CadastraReducao extends AppCompatActivity {
                 reducaoLixo.setFoto(foto.getText().toString());
             }
 
-            Gson gson = new Gson();
-            String json = gson.toJson(reducaoLixo);
+
+            // nesse procedimento oculta o botão salvar e torna o progress visivel para até finalizar a operação no serviço
             progress_save_loading.setVisibility(View.VISIBLE);
             btnSalvar.setVisibility(View.GONE);
 
@@ -172,6 +179,8 @@ public class CadastraReducao extends AppCompatActivity {
 
     private void postRequest(ReducaoLixo reducaoLixo) {
 
+        // nesse momento pode se incluir o método editar se necessário...
+        // apenas verificar a variavel reducaoEdit para trocar a chamado do método
         Call<RespostaJSON<ReducaoLixo>> call = NetworkManager.service().inserirReducaoLixo(reducaoLixo);
         call.enqueue(new Callback<RespostaJSON<ReducaoLixo>>() {
             @Override
@@ -180,9 +189,11 @@ public class CadastraReducao extends AppCompatActivity {
 
                 // Webservice retornou uma resposta
                 RespostaJSON<ReducaoLixo> body = response.body();
+                // torno o progress invisivel pois o processamento no service terminou
                 progress_save_loading.setVisibility(View.GONE);
-                btnSalvar.setVisibility(View.VISIBLE);
 
+                // torno o botão salvar visivel novamente
+                btnSalvar.setVisibility(View.VISIBLE);
                 // Verifica se nao ocorreu erro no processamento do servidor
 
 
